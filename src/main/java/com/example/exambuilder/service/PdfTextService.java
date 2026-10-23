@@ -11,7 +11,7 @@ import java.util.Locale;
 
 @Service
 public class PdfTextService {
-    private static final long MAX_FILE_BYTES = 15L * 1024 * 1024;
+    private static final long MAX_FILE_BYTES = 30L * 1024 * 1024;
     private static final int MAX_SELECTED_PAGES = 30;
     private static final int MAX_EXTRACTED_CHARS = 200_000;
 
