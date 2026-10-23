@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ExamBuilder - Soạn đề thi trực tuyến</title><link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="nav wrap">
+  <a class="brand" th:href="@{/}"><span class="brand-icon">E</span> ExamBuilder</a>
+  <nav class="nav-links"><a th:href="@{/}">Trang chủ</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{/exams}">Đề thi của tôi</a>
+    <a sec:authorize="isAnonymous()" th:href="@{/login}">Đăng nhập</a>
+    <a sec:authorize="isAnonymous()" class="btn btn-sm" th:href="@{/register}">Đăng ký</a>
+    <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post"><button class="link-button" type="submit">Đăng xuất</button></form>
+  </nav>
+</header>
+<main>
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">CÔNG CỤ SOẠN ĐỀ THI ĐƠN GIẢN</span>
+      <h1>Tạo đề thi trắc nghiệm <span>dễ dàng hơn</span></h1>
+      <p>Tự tạo câu hỏi, chọn đáp án đúng, lưu đề thi của bạn và in ra giấy. Không cần cài đặt phần mềm phức tạp.</p>
+      <a class="btn btn-large" th:href="@{/exams/new}">Bắt đầu soạn đề <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn-outline btn-large" th:href="@{/exams}">Xem đề của tôi</a>
+      <p class="small-muted" th:if="${param.logout}">Bạn đã đăng xuất thành công.</p>
+    </div>
+    <div class="hero-illustration" aria-hidden="true">
+      <div class="mock-paper">
+        <div class="mock-title"></div><div class="mock-subtitle"></div>
+        <div class="mock-line long"></div><div class="mock-line"></div>
+        <div class="mock-answer"><i></i><div></div></div>
+        <div class="mock-answer"><i></i><div></div></div>
+        <div class="mock-answer selected"><i></i><div></div></div>
+        <div class="mock-answer"><i></i><div></div></div>
+        <div class="mock-line long"></div><div class="mock-line"></div>
+      </div>
+      <div class="floating-badge">&#10003; Lưu đề thành công</div>
+    </div>
+  </section>
+  <section class="features wrap">
+    <div class="section-head"><span class="eyebrow">TÍNH NĂNG NỔI BẬT</span><h2>Những gì bạn có thể làm</h2></div>
+    <div class="feature-grid">
+      <article class="feature"><div class="feature-icon">01</div><h3>Soạn câu hỏi</h3><p>Nhập nội dung, bốn lựa chọn A/B/C/D và đáp án đúng.</p></article>
+      <article class="feature"><div class="feature-icon">02</div><h3>Lưu đề thi</h3><p>Lưu dữ liệu vào database để xem lại bất cứ lúc nào.</p></article>
+      <article class="feature"><div class="feature-icon">03</div><h3>In đề thi</h3><p>Xem trước đề và in bằng trình duyệt.</p></article>
+    </div>
+  </section>
+</main>
+<footer class="footer">ExamBuilder MVP &mdash; Dự án học tập Java Spring Boot</footer>
+</body></html>

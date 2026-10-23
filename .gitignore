@@ -1,0 +1,8 @@
+target/
+data/
+*.db
+*.trace.db
+.env
+.idea/
+.vscode/
+.DS_Store

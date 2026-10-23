@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Soan đề thi - ExamBuilder</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header class="nav wrap"><a class="brand" th:href="@{/}"><span class="brand-icon">E</span> ExamBuilder</a><nav class="nav-links"><a th:href="@{/exams}">&larr; Quay lại danh sách</a><form th:action="@{/logout}" method="post"><button class="link-button" type="submit">Đăng xuất</button></form></nav></header>
+<main class="wrap content-page narrow">
+  <span class="eyebrow">TRÌNH SOẠN THẢO</span><h1 th:text="${pageTitle}">Tạo đề thi mới</h1><p class="muted">Mỗi câu hỏi có 4 lựa chọn và 1 đáp án đúng.</p>
+  <div class="notice error" th:if="${error}" th:text="${error}"></div>
+  <form th:action="${postUrl}" method="post" id="exam-form" class="stack-lg">
+    <section class="panel"><h2>Thông tin đề thi</h2><div class="two-columns">
+      <label>Tên đề thi <span class="required">*</span><input type="text" name="title" required maxlength="120" th:value="${form.title}" placeholder="Ví dụ: Kiểm tra SQL cơ bản"></label>
+      <label>Môn học <span class="required">*</span><input type="text" name="subject" required maxlength="60" th:value="${form.subject}" placeholder="Ví dụ: Cơ sở dữ liệu"></label>
+    </div></section>
+    <div class="section-line"><h2>Danh sách câu hỏi</h2><span class="small-muted">Tối đa 30 câu</span></div>
+    <div id="question-list" class="stack-md">
+      <article class="panel question-card" th:each="question, it : ${form.questions}">
+        <div class="question-header"><h3>Câu <span class="question-number" th:text="${it.count}">1</span></h3><button type="button" class="remove-question link-danger">Xóa câu</button></div>
+        <label>Nội dung câu hỏi <span class="required">*</span><textarea data-field="text" th:name="|questions[${it.index}].text|" th:text="${question.text}" rows="3" maxlength="1000" required placeholder="Nhập nội dung câu hỏi"></textarea></label>
+        <div class="answer-grid">
+          <label>Đáp án A<input data-field="choiceA" th:name="|questions[${it.index}].choiceA|" th:value="${question.choiceA}" maxlength="255" required></label>
+          <label>Đáp án B<input data-field="choiceB" th:name="|questions[${it.index}].choiceB|" th:value="${question.choiceB}" maxlength="255" required></label>
+          <label>Đáp án C<input data-field="choiceC" th:name="|questions[${it.index}].choiceC|" th:value="${question.choiceC}" maxlength="255" required></label>
+          <label>Đáp án D<input data-field="choiceD" th:name="|questions[${it.index}].choiceD|" th:value="${question.choiceD}" maxlength="255" required></label>
+        </div>
+        <label class="correct-label">Đáp án đúng <select data-field="correctAnswer" th:name="|questions[${it.index}].correctAnswer|">
+          <option value="A" th:selected="${question.correctAnswer == 'A'}">A</option>
+          <option value="B" th:selected="${question.correctAnswer == 'B'}">B</option>
+          <option value="C" th:selected="${question.correctAnswer == 'C'}">C</option>
+          <option value="D" th:selected="${question.correctAnswer == 'D'}">D</option>
+        </select></label>
+      </article>
+    </div>
+    <button id="add-question" class="btn btn-outline btn-block" type="button">+ Thêm câu hỏi</button>
+    <div class="form-footer"><a class="btn btn-outline" th:href="@{/exams}">Hủy</a><button class="btn" type="submit">Lưu đề thi &rarr;</button></div>
+  </form>
+</main>
+<template id="question-template">
+  <article class="panel question-card">
+    <div class="question-header"><h3>Câu <span class="question-number">1</span></h3><button type="button" class="remove-question link-danger">Xóa câu</button></div>
+    <label>Nội dung câu hỏi <span class="required">*</span><textarea data-field="text" rows="3" maxlength="1000" required placeholder="Nhập nội dung câu hỏi"></textarea></label>
+    <div class="answer-grid">
+      <label>Đáp án A<input data-field="choiceA" maxlength="255" required></label>
+      <label>Đáp án B<input data-field="choiceB" maxlength="255" required></label>
+      <label>Đáp án C<input data-field="choiceC" maxlength="255" required></label>
+      <label>Đáp án D<input data-field="choiceD" maxlength="255" required></label>
+    </div>
+    <label class="correct-label">Đáp án đúng <select data-field="correctAnswer"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select></label>
+  </article>
+</template>
+<script th:src="@{/js/exam-form.js}" defer></script>
+</body></html>

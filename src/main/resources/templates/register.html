@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Đăng ký - ExamBuilder</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body class="auth-body">
+  <div class="auth-card">
+    <a class="brand" th:href="@{/}"><span class="brand-icon">E</span> ExamBuilder</a>
+    <h1>Tạo tài khoản mới</h1><p class="muted">Bắt đầu lưu các đề thi của riêng bạn.</p>
+    <div class="notice error" th:if="${error}" th:text="${error}"></div>
+    <form th:action="@{/register}" method="post" class="stack">
+      <label>Tên đăng nhập<input name="username" type="text" minlength="3" maxlength="30" pattern="[a-zA-Z0-9_]{3,30}" th:value="${username}" placeholder="Vi du: cuong123" autocomplete="username" required></label>
+      <label>Mật khẩu<input name="password" type="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Ít nhất 8 ký tự" required></label>
+      <label>Nhập lại mật khẩu<input name="confirmPassword" type="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Xác nhận mật khẩu" required></label>
+      <button class="btn btn-block" type="submit">Tạo tài khoản</button>
+    </form>
+    <p class="auth-switch">Đã có tài khoản? <a th:href="@{/login}">Đăng nhập</a></p>
+  </div>
+</body></html>

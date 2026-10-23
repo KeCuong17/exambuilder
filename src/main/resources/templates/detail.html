@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title th:text="${exam.title} + ' - ExamBuilder'">Xem đề thi</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header class="nav wrap no-print"><a class="brand" th:href="@{/}"><span class="brand-icon">E</span> ExamBuilder</a><nav class="nav-links"><a th:href="@{/exams}">&larr; Đề thi của tôi</a><form th:action="@{/logout}" method="post"><button type="submit" class="link-button">Đăng xuất</button></form></nav></header>
+<main class="wrap content-page narrow">
+  <div class="page-top no-print"><div><span class="eyebrow">XEM TRƯỚC ĐỀ THI</span><h1 th:text="${exam.title}">Tên đề thi</h1></div>
+    <div class="flex-actions"><a class="btn btn-outline" th:href="@{/exams/{id}/edit(id=${exam.id})}">Sửa đề</a><button class="btn" onclick="window.print()" type="button">In đề thi</button></div>
+  </div>
+  <div class="notice success no-print" th:if="${param.saved}">Đã lưu đề thi thành công!</div>
+  <article class="printed-exam">
+    <div class="paper-heading"><h2 th:text="${exam.title}">De thi</h2><p>Mon: <strong th:text="${exam.subject}">SQL</strong> &nbsp;&middot;&nbsp; Số câu: <strong th:text="${exam.questions.size()}">3</strong></p></div>
+    <section class="printed-question" th:each="q, it : ${exam.questions}">
+      <h3>Câu <span th:text="${it.count}">1</span>: <span th:text="${q.text}">Noi dung</span></h3>
+      <div class="option"><b>A.</b> <span th:text="${q.choiceA}">Đáp án</span></div>
+      <div class="option"><b>B.</b> <span th:text="${q.choiceB}">Đáp án</span></div>
+      <div class="option"><b>C.</b> <span th:text="${q.choiceC}">Đáp án</span></div>
+      <div class="option"><b>D.</b> <span th:text="${q.choiceD}">Đáp án</span></div>
+      <div class="correct-answer no-print">Đáp án đúng: <b th:text="${q.correctAnswer}">A</b></div>
+    </section>
+  </article>
+  <div class="delete-area no-print"><form th:action="@{/exams/{id}/delete(id=${exam.id})}" method="post" onsubmit="return confirm('Bạn chắc chắn muốn xóa đề thi này?')"><button class="link-danger" type="submit">Xóa đề thi này</button></form></div>
+</main></body></html>

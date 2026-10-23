@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Đề thi của tôi - ExamBuilder</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header class="nav wrap"><a class="brand" th:href="@{/}"><span class="brand-icon">E</span> ExamBuilder</a><nav class="nav-links"><a th:href="@{/}">Trang chủ</a><a class="active" th:href="@{/exams}">Đề thi của tôi</a><form th:action="@{/logout}" method="post"><button type="submit" class="link-button">Đăng xuất</button></form></nav></header>
+<main class="wrap content-page">
+  <div class="page-top"><div><span class="eyebrow">KHO ĐỀ THI CÁ NHÂN</span><h1>Đề thi của tôi</h1><p class="muted">Quản lý các đề thi bạn đã tạo.</p></div><a class="btn" th:href="@{/exams/new}">+ Tạo đề mới</a></div>
+  <div class="notice success" th:if="${param.deleted}">Đã xóa đề thi.</div>
+  <div th:if="${#lists.isEmpty(exams)}" class="empty-card"><div class="empty-icon">&#9997;</div><h2>Bạn chưa có đề thi nào</h2><p>Hãy tạo đề thi đầu tiên với những câu hỏi trắc nghiệm.</p><a class="btn" th:href="@{/exams/new}">Tạo đề đầu tiên</a></div>
+  <div class="exam-grid" th:unless="${#lists.isEmpty(exams)}">
+    <article class="exam-card" th:each="exam : ${exams}">
+      <div class="subject-pill" th:text="${exam.subject}">Môn học</div>
+      <h2 th:text="${exam.title}">Tên đề thi</h2>
+      <p class="small-muted">Ngày tạo: <span th:text="${#temporals.format(exam.createdAt, 'dd/MM/yyyy HH:mm')}">01/01</span></p>
+      <div class="card-actions"><a class="btn btn-sm" th:href="@{/exams/{id}(id=${exam.id})}">Xem đề</a><a class="btn btn-outline btn-sm" th:href="@{/exams/{id}/edit(id=${exam.id})}">Sửa đề</a></div>
+    </article>
+  </div>
+</main></body></html>
