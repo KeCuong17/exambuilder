@@ -4,7 +4,7 @@
 <body>
 <header class="nav wrap"><a class="brand" th:href="@{/}"><span class="brand-icon">E</span> ExamBuilder</a><nav class="nav-links"><a th:href="@{/}">Trang chủ</a><a class="active" th:href="@{/exams}">Đề thi của tôi</a><form th:action="@{/logout}" method="post"><button type="submit" class="link-button">Đăng xuất</button></form></nav></header>
 <main class="wrap content-page">
-  <div class="page-top"><div><span class="eyebrow">KHO ĐỀ THI CÁ NHÂN</span><h1>Đề thi của tôi</h1><p class="muted">Quản lý các đề thi bạn đã tạo.</p></div><a class="btn" th:href="@{/exams/new}">+ Tạo đề mới</a></div>
+  <div class="page-top"><div><span class="eyebrow">KHO ĐỀ THI CÁ NHÂN</span><h1>Đề thi của tôi</h1><p class="muted">Quản lý các đề thi bạn đã tạo.</p></div><div class="flex-actions"><a class="btn btn-outline" th:href="@{/ai-exams}">Đề AI của tôi</a><a class="btn btn-outline" th:href="@{/documents}">Tạo đề từ PDF</a><a class="btn" th:href="@{/exams/new}">+ Tạo đề mới</a></div></div>
   <div class="notice success" th:if="${param.deleted}">Đã xóa đề thi.</div>
   <div th:if="${#lists.isEmpty(exams)}" class="empty-card"><div class="empty-icon">&#9997;</div><h2>Bạn chưa có đề thi nào</h2><p>Hãy tạo đề thi đầu tiên với những câu hỏi trắc nghiệm.</p><a class="btn" th:href="@{/exams/new}">Tạo đề đầu tiên</a></div>
   <div class="exam-grid" th:unless="${#lists.isEmpty(exams)}">

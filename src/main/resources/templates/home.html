@@ -9,6 +9,7 @@
   <a class="brand" th:href="@{/}"><span class="brand-icon">E</span> ExamBuilder</a>
   <nav class="nav-links"><a th:href="@{/}">Trang chủ</a>
     <a sec:authorize="isAuthenticated()" th:href="@{/exams}">Đề thi của tôi</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{/documents}">Tạo đề từ sách AI</a>
     <a sec:authorize="isAnonymous()" th:href="@{/login}">Đăng nhập</a>
     <a sec:authorize="isAnonymous()" class="btn btn-sm" th:href="@{/register}">Đăng ký</a>
     <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post"><button class="link-button" type="submit">Đăng xuất</button></form>
@@ -19,9 +20,9 @@
     <div class="hero-copy">
       <span class="eyebrow">CÔNG CỤ SOẠN ĐỀ THI ĐƠN GIẢN</span>
       <h1>Tạo đề thi trắc nghiệm <span>dễ dàng hơn</span></h1>
-      <p>Tự tạo câu hỏi, chọn đáp án đúng, lưu đề thi của bạn và in ra giấy. Không cần cài đặt phần mềm phức tạp.</p>
+      <p>Tự soạn đề hoặc tải sách PDF lên, chọn trang cần lấy và dùng AI tạo câu hỏi trắc nghiệm, tự luận. Lưu và in đề trực tuyến.</p>
       <a class="btn btn-large" th:href="@{/exams/new}">Bắt đầu soạn đề <span aria-hidden="true">&rarr;</span></a>
-      <a class="btn btn-outline btn-large" th:href="@{/exams}">Xem đề của tôi</a>
+      <a class="btn btn-outline btn-large" th:href="@{/documents}">Tải sách &amp; tạo đề AI</a>
       <p class="small-muted" th:if="${param.logout}">Bạn đã đăng xuất thành công.</p>
     </div>
     <div class="hero-illustration" aria-hidden="true">

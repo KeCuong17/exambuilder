@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Đề thi AI - ExamBuilder</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header class="nav wrap no-print"><a class="brand" th:href="@{/}"><span class="brand-icon">E</span> ExamBuilder</a><nav class="nav-links"><a th:href="@{/ai-exams}">&larr; Đề thi AI của tôi</a><form th:action="@{/logout}" method="post"><button class="link-button">Đăng xuất</button></form></nav></header>
+<main class="content-page wrap narrow">
+  <div class="page-top no-print"><div><span class="eyebrow">ĐÃ LƯU TRONG TÀI KHOẢN</span><h1>Đề thi do AI tạo</h1><p class="muted">Hãy kiểm tra lại tính đúng đắn trước khi sử dụng để kiểm tra học sinh.</p></div><button class="btn" onclick="window.print()" type="button">In đề thi</button></div>
+  <article class="printed-exam">
+    <div class="paper-heading"><h2 th:text="${exam.title}">Đề thi AI</h2><p th:text="${exam.questions.size()} + ' câu · Nguồn: ' + ${exam.document.filename}">20 câu</p></div>
+    <section class="printed-question" th:each="q, it : ${exam.questions}">
+      <div class="question-meta"><span th:text="${q.type == 'MCQ' ? 'Trắc nghiệm' : 'Tự luận'}">Loại</span><span th:text="${q.difficulty}">MEDIUM</span><span th:text="'Trang PDF ' + ${q.sourcePage}">Trang</span></div>
+      <h3>Câu <span th:text="${it.count}">1</span>: <span th:text="${q.question}">Nội dung</span></h3>
+      <div th:if="${q.type == 'MCQ'}">
+        <div class="option"><b>A.</b> <span th:text="${q.optionA}">Phương án A</span></div>
+        <div class="option"><b>B.</b> <span th:text="${q.optionB}">Phương án B</span></div>
+        <div class="option"><b>C.</b> <span th:text="${q.optionC}">Phương án C</span></div>
+        <div class="option"><b>D.</b> <span th:text="${q.optionD}">Phương án D</span></div>
+      </div>
+      <div th:if="${q.type == 'ESSAY'}" class="essay-lines">......................................................................................<br>......................................................................................</div>
+      <div class="ai-answer no-print"><strong th:text="${q.type == 'MCQ' ? 'Đáp án: ' + q.correctAnswer : 'Gợi ý trả lời:'}">Đáp án</strong><p th:text="${q.explanation}">Giải thích</p></div>
+    </section>
+  </article>
+  <div class="delete-area no-print"><form th:action="@{/ai-exams/{id}/delete(id=${exam.id})}" method="post" onsubmit="return confirm('Bạn muốn xóa đề AI này?')"><button class="link-danger" type="submit">Xóa đề này</button></form></div>
+</main></body></html>

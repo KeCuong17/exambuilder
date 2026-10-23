@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Tải sách PDF - ExamBuilder</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header class="nav wrap"><a class="brand" th:href="@{/}"><span class="brand-icon">E</span> ExamBuilder</a><nav class="nav-links"><a th:href="@{/exams}">Đề của tôi</a><a th:href="@{/ai-exams}">Đề AI đã tạo</a><form th:action="@{/logout}" method="post"><button class="link-button">Đăng xuất</button></form></nav></header>
+<main class="content-page wrap narrow">
+  <span class="eyebrow">TÀI LIỆU CỦA BẠN</span><h1>Đọc sách PDF và tạo đề bằng AI</h1>
+  <p class="muted">Chọn file PDF có thể sao chép chữ. Website sẽ lấy nội dung trong khoảng trang được chọn, cho bạn xem trước rồi mới tạo đề.</p>
+  <div class="notice error" th:if="${error}" th:text="${error}"></div>
+  <form class="panel stack-lg" method="post" th:action="@{/documents/upload}" enctype="multipart/form-data">
+    <label>Tải lên sách PDF (tối đa 15 MB)
+      <input type="file" name="pdf" accept="application/pdf,.pdf" required>
+    </label>
+    <label>Chương / chủ đề muốn lấy
+      <input type="text" name="chapter" maxlength="120" required th:value="${chapterValue ?: 'Chương 2: Hàm số'}">
+    </label>
+    <div class="two-columns">
+      <label>Từ trang PDF số
+        <input type="number" name="startPage" min="1" required th:value="${startPageValue ?: 35}">
+      </label>
+      <label>Đến trang PDF số (tối đa 30 trang)
+        <input type="number" name="endPage" min="1" required th:value="${endPageValue ?: 60}">
+      </label>
+    </div>
+    <div class="two-columns">
+      <label>Số câu cần tạo
+        <select name="questionCount"><option value="10" th:selected="${questionCountValue == 10}">10 câu</option><option value="15" th:selected="${questionCountValue == 15}">15 câu</option><option value="20" th:selected="${questionCountValue == null or questionCountValue == 20}">20 câu</option></select>
+      </label>
+      <label>Độ khó
+        <select name="difficulty"><option value="MIXED" th:selected="${difficultyValue == null or difficultyValue == 'MIXED'}">Kết hợp (dễ, vừa, khó)</option><option value="EASY" th:selected="${difficultyValue == 'EASY'}">Dễ</option><option value="MEDIUM" th:selected="${difficultyValue == 'MEDIUM'}">Trung bình</option><option value="HARD" th:selected="${difficultyValue == 'HARD'}">Khó</option></select>
+      </label>
+    </div>
+    <label>Loại câu hỏi
+      <select name="questionType"><option value="MIXED" th:selected="${questionTypeValue == null or questionTypeValue == 'MIXED'}">Trắc nghiệm và tự luận</option><option value="MULTIPLE_CHOICE" th:selected="${questionTypeValue == 'MULTIPLE_CHOICE'}">Chỉ trắc nghiệm A/B/C/D</option><option value="ESSAY" th:selected="${questionTypeValue == 'ESSAY'}">Chỉ tự luận</option></select>
+    </label>
+    <div class="notice">Trang 35–60 ở đây là <b>thứ tự trang trong file PDF</b>, có thể khác số trang in trên sách. File gốc không được lưu; chỉ lưu văn bản trích ra để tạo đề.</div>
+    <button class="btn" type="submit">1. Đọc PDF và xem trước &rarr;</button>
+  </form>
+  <h2 class="spaced-title">Tài liệu đã tải lên</h2>
+  <div th:if="${#lists.isEmpty(documents)}" class="empty-card"><p>Chưa có tài liệu nào được tải lên.</p></div>
+  <div class="document-list" th:unless="${#lists.isEmpty(documents)}">
+    <a class="document-row" th:each="doc : ${documents}" th:href="@{/documents/{id}(id=${doc.id})}">
+      <div><strong th:text="${doc.filename}">sach.pdf</strong><div class="small-muted" th:text="${doc.chapter} + ' · PDF trang ' + ${doc.startPage} + '–' + ${doc.endPage}">Trang</div></div><span>&rarr;</span>
+    </a>
+  </div>
+</main>
+</body></html>

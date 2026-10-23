@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Xem nội dung PDF - ExamBuilder</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header class="nav wrap no-print"><a class="brand" th:href="@{/}"><span class="brand-icon">E</span> ExamBuilder</a><nav class="nav-links"><a th:href="@{/documents}">&larr; Tải PDF khác</a><a th:href="@{/ai-exams}">Đề AI</a></nav></header>
+<main class="content-page wrap narrow">
+  <span class="eyebrow">ĐÃ ĐỌC TÀI LIỆU</span>
+  <h1 th:text="${document.filename}">Sách.pdf</h1>
+  <p class="muted" th:text="${document.chapter} + ' · PDF trang ' + ${document.startPage} + '–' + ${document.endPage} + ' / ' + ${document.totalPages} + ' trang · ' + ${charCount} + ' ký tự đã trích xuất'">Thông tin</p>
+  <div class="notice error" th:if="${error}" th:text="${error}">Lỗi</div>
+  <div th:unless="${aiConfigured}" class="notice">Đọc PDF đã hoạt động. Để AI thực sự tạo đề, cần thêm biến <code>GEMINI_API_KEY</code> trong Render &rarr; Environment.</div>
+  <section class="panel pdf-panel">
+    <h2>1. Văn bản đã lấy từ PDF</h2>
+    <p class="small-muted">Đang hiển thị tối đa 12.000 ký tự đầu tiên để kiểm tra việc đọc sách. AI sẽ nhận toàn bộ phần chữ đã trích (tối đa 120.000 ký tự).</p>
+    <pre class="pdf-preview" th:text="${preview}">Nội dung trích xuất...</pre>
+    <p class="small-muted" th:if="${truncated}">Bản xem trước đã được rút gọn. Nội dung đầy đủ được lưu trong database.</p>
+  </section>
+  <section class="panel">
+    <h2>2. Xác nhận và tạo đề bằng AI</h2>
+    <div class="meta-chips"><span th:text="${document.questionCount} + ' câu'">20 câu</span><span th:text="${document.difficulty == 'MIXED' ? 'Độ khó: Kết hợp' : document.difficulty}">Độ khó</span><span th:text="${document.questionType == 'MIXED' ? 'Trắc nghiệm + tự luận' : (document.questionType == 'ESSAY' ? 'Tự luận' : 'Trắc nghiệm')}">Dạng</span></div>
+    <p class="small-muted">AI chỉ được yêu cầu sử dụng nội dung trong các trang đã đọc. Tuy vậy, bạn vẫn cần kiểm tra đáp án và trích dẫn trước khi dùng chính thức. Khi bạn bấm tạo đề, phần văn bản đã trích được gửi đến nhà cung cấp AI để xử lý. Gemini có Free Tier giới hạn; dùng bản trả phí có thể phát sinh chi phí.</p>
+    <form th:action="@{/documents/{id}/generate(id=${document.id})}" method="post" onsubmit="this.querySelector('button').disabled = true; this.querySelector('button').textContent = 'Đang tạo đề...';">
+      <button class="btn" type="submit" th:disabled="${!aiConfigured}">Tạo đề tự động bằng AI &rarr;</button>
+    </form>
+  </section>
+
+</main></body></html>

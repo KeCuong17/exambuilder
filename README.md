@@ -1,3 +1,11 @@
+# ExamBuilder – Phiên bản Gemini AI
+
+**Đọc trước:** [HUONG-DAN-GEMINI.md](HUONG-DAN-GEMINI.md)
+
+Đã thay kết nối OpenAI API bằng **Google Gemini API**. Bản này dùng `GEMINI_API_KEY` (không dùng `OPENAI_API_KEY`) và mặc định model `gemini-3.1-flash-lite`.
+
+---
+
 # ExamBuilder — Website soạn đề thi trắc nghiệm (MVP)
 
 Dự án Java Spring Boot để học cách xây dựng website có tài khoản, lưu đề thi vào cơ sở dữ liệu và triển khai lên Internet.
@@ -15,7 +23,7 @@ Dự án Java Spring Boot để học cách xây dựng website có tài khoản
 
 ## 2. Cần cài gì trên máy Windows?
 
-1. **JDK 25 (LTS)** (kiểm tra bằng `java -version`).
+1. **JDK 17 hoặc 21** (kiểm tra bằng `java -version`).
 2. **Apache Maven 3.6.3+** (kiểm tra bằng `mvn -version`).
 3. **VS Code** kèm Extension Pack for Java (hoặc IntelliJ IDEA).
 
@@ -134,3 +142,14 @@ Tài liệu tham khảo:
 - Render Docker: https://render.com/docs/docker
 - Render web services: https://render.com/docs/web-services
 - Neon: https://neon.com/docs
+
+---
+
+## Nâng cấp: Đọc sách PDF và tạo đề bằng AI
+
+Có 2 tính năng bổ sung:
+
+- **Đọc PDF (không cần API key):** đăng nhập, mở `/documents`, tải file PDF có chữ, chọn chương/trang, và xem bản đọc được.
+- **Tạo đề AI (cần API key riêng):** thêm `GEMINI_API_KEY` vào biến môi trường của Spring Boot / Render; chọn **Tạo đề tự động bằng AI** sau khi đã xem trước nội dung.
+
+Xem hướng dẫn từng bước ở **HUONG-DAN-THEM-AI.md**. Phần đề AI được lưu trong các bảng mới và truy cập tại `/ai-exams`. Database cũ và các đề trắc nghiệm tạo thủ công vẫn được giữ nguyên.

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Đề thi AI - ExamBuilder</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header class="nav wrap"><a class="brand" th:href="@{/}"><span class="brand-icon">E</span> ExamBuilder</a><nav class="nav-links"><a th:href="@{/documents}">Tải sách PDF</a><a th:href="@{/exams}">Đề thủ công</a><form th:action="@{/logout}" method="post"><button class="link-button">Đăng xuất</button></form></nav></header>
+<main class="content-page wrap">
+  <div class="page-top"><div><span class="eyebrow">ĐỀ THI TẠO TỪ SÁCH</span><h1>Đề thi AI của tôi</h1><p class="muted">Chỉ bạn mới xem được các đề thi của tài khoản mình.</p></div><a class="btn" th:href="@{/documents}">+ Tải PDF và tạo đề</a></div>
+  <div th:if="${param.deleted}" class="notice success">Đã xóa đề thi AI.</div>
+  <div th:if="${#lists.isEmpty(exams)}" class="empty-card"><h2>Chưa có đề AI</h2><p>Hãy tải sách PDF, chọn các trang rồi bấm tạo đề.</p><a class="btn" th:href="@{/documents}">Tải sách PDF</a></div>
+  <div class="exam-grid" th:unless="${#lists.isEmpty(exams)}">
+    <div class="exam-card" th:each="exam : ${exams}"><span class="subject-pill">AI từ PDF</span><h2 th:text="${exam.title}">Đề từ sách</h2><p class="small-muted" th:text="${exam.questions.size()} + ' câu · ' + ${exam.document.filename}">20 câu</p><div class="card-actions"><a class="btn btn-sm" th:href="@{/ai-exams/{id}(id=${exam.id})}">Xem / In đề</a></div></div>
+  </div>
+</main></body></html>
